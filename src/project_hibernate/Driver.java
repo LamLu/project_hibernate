@@ -14,15 +14,21 @@ import java.io.InputStreamReader;
 public class Driver {
     
     private static final String HELP_MSG = 
-            "Commands: create, load, find<n>, congressmen, districts, "
-            + "committees, states";
+            "* ---------------- Commands ---------------- *\n"
+            + "* create, load, find <congressman_id>        *\n"
+            + "* congressmen, districts, committees, states *\n"
+            + "* congressmanInDistrict <>                   *\n"
+            + "* congressmanInState <state_code>            *\n"
+            + "* congressmanInCommittee <committee_name>    *\n"
+            + "* quit                                       *\n"
+            + "* ------------------------------------------ *";
     
     public static void main(String[] args) {
         
         BufferedReader stdin = new BufferedReader(new InputStreamReader(System.in));
         String command = "";
         
-        Class[] clases = {Congressman.class, Committee.class, State.class, District.class};
+        Class[] clases = {Congressman.class, Committee.class, State.class};
         
         HibernateContext.addClasses(clases);
         
@@ -43,27 +49,58 @@ public class Driver {
             if(command.equalsIgnoreCase("create")) {
                 HibernateContext.createSchema();
             }
+            
             else if(command.equalsIgnoreCase("load")) {
+                State.load();
                 Congressman.load();
                 Committee.load();
-                District.load();
-                State.load();
             }
+            
             else if(command.equalsIgnoreCase("congressmen")) {
                 Congressman.list();
             }
+            
             else if(command.equalsIgnoreCase("districts")) {
-                
+                // To be fill up
             }
+            
             else if(command.equalsIgnoreCase("committees")) {
                 Committee.list();
             }
+            
             else if(command.equalsIgnoreCase("states")) {
                 State.list();
             }
+            
             else if(parts[0].equalsIgnoreCase("find") && parts.length >= 2) {
-                
+                try {
+                    int id = Integer.parseInt(parts[1]);
+                    Congressman congressman = Congressman.find(id);
+                    
+                    if(congressman != null)
+                        congressman.printInSession();
+                    else
+                        System.out.printf("*** No congressman with id %d\n", id);
+                } catch(NumberFormatException ex) {
+                    System.out.println(ex.getMessage());
+                }
             }
+            
+            else if(parts[0].equalsIgnoreCase("congressmanInDistrict") 
+                    && parts.length >= 2) {
+                Congressman.congressmanInDistrict(parts[1]);
+            }
+            
+            else if(parts[0].equalsIgnoreCase("congressmanInState") 
+                    && parts.length >= 2) {
+                Congressman.congressmanInState(parts[1]);
+            }
+            
+            else if(parts[0].equalsIgnoreCase("congressmanInCommittee") 
+                    && parts.length >= 2) {
+                Congressman.congressmanInCommittee(parts[1]);
+            }
+            
         } while(!command.equalsIgnoreCase("quit"));
         
     }

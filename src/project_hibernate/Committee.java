@@ -6,14 +6,7 @@ package project_hibernate;
 
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -41,8 +34,8 @@ public class Committee {
     @Id
     @GeneratedValue
     @Column(name="committee_id")
-    public int getCtID() { return id; }
-    public void setCtID(int id) { this.id = id; }
+    public int getID() { return id; }
+    public void setID(int id) { this.id = id; }
     
     @Column(name="name")
     public String getName() { return name; }
@@ -64,9 +57,9 @@ public class Committee {
         Session session = HibernateContext.getSession();
         
         Committee agr = new Committee("Agriculture");
-        Committee enc = new Committee("Engrgy and Commerce");
-        Committee nr = new Committee("Natural Resource");
-        Committee sst = new Committee("Science, Space and Technology");
+        Committee enc = new Committee("Engrgy_and_Commerce");
+        Committee nr = new Committee("Natural_Resource");
+        Committee sst = new Committee("Science_Space_and_Technology");
         
         Congressman lucas = Congressman.find("Lucas");
         Congressman scott = Congressman.find("Scott");
@@ -118,7 +111,6 @@ public class Committee {
         
     }
     
-    
     /**
      * List all the congressmen
      */
@@ -134,8 +126,7 @@ public class Committee {
         
         session.close();
     }
-    
-    
+       
     /**
      * Print committee attributes
      */

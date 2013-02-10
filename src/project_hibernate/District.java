@@ -2,11 +2,10 @@ package project_hibernate;
 
 import java.util.List;
 
-import javax.persistence.*;
 
+import javax.persistence.*;
+import org.hibernate.*;
 import org.hibernate.Query;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 
 /**
  * this class represents a district table on the database

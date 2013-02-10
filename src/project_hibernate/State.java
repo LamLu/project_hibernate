@@ -4,18 +4,10 @@
  */
 package project_hibernate;
 
-import java.util.List;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import java.util.*;
+import javax.persistence.*;
+import org.hibernate.*;
 import org.hibernate.Query;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 
 /**
  *
@@ -139,13 +131,13 @@ public class State {
      * @param stateCode the name code for the state
      * @return a State object
      */
-    public static State find(String nameCode) {
+    public static State find(String stateCode) {
         
         Session session = HibernateContext.getSession();
         Query query = 
-                session.createQuery("from State where name_code = :nameCode");
+                session.createQuery("from State where state_code = :stateCode");
         
-        query.setString("nameCode", nameCode);
+        query.setString("stateCode", stateCode);
         State state = (State)query.uniqueResult();
         
         session.close();
