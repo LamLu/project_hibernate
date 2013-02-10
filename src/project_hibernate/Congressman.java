@@ -4,12 +4,28 @@
  */
 package project_hibernate;
 
-import java.util.*;
-import javax.persistence.*;
-import org.hibernate.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import org.hibernate.Criteria;
 import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+
 
 /**
  *
@@ -25,14 +41,13 @@ public class Congressman {
     private String lastName;
     private String party;
     private State state;
-    private List<Committee> committees = new ArrayList<Committee>();
-    
     private District district;
+    private List<Committee> committees = new ArrayList<Committee>();
 
     
     public Congressman() {}
     
-    public Congressman(String firstName, String lastName, String party, State state , District district) {
+    public Congressman(String firstName, String lastName, String party, State state, District district) {
         
         this.firstName = firstName;
         this.lastName = lastName;
@@ -59,6 +74,11 @@ public class Congressman {
     public String getparty() { return party; }
     public void setparty(String party) { this.party = party; }    
     
+    @OneToOne(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+    @JoinColumn(name="district_id")
+    public District getDistrict() { return district; }
+    public void setDistrict(District district) { this.district = district; };
+    
     @ManyToOne
     @JoinColumn(name="state_code")
     public State getState() { return state; }
@@ -70,11 +90,6 @@ public class Congressman {
             inverseJoinColumns={@JoinColumn(name="committee_id")})
     public List<Committee> getCommittees() { return committees; }
     public void setCommittees(List<Committee> committees) { this.committees = committees;}   
-    
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn (name = "districtID")
-    public District getDistrictID() {return district;}
-    public void setDistrictID(District aDistrict) {this.district = aDistrict;}
     
     /**
      * Load the congressman table
@@ -92,7 +107,6 @@ public class Congressman {
         State ny = State.find("NY");
         State ok = State.find("OK");
         State tx = State.find("TX");
-        
         
         District ok3rd = District.find("Oklahoma's 3rd District");
         District ga13th = District.find("Georgia's 13th District");
@@ -118,7 +132,20 @@ public class Congressman {
         Congressman c9 = new Congressman("Kevin", "Cramer", "Republican", nd, ndAtLarge);
         Congressman c10 = new Congressman("Paul", "Broun", "Republican", ga, ga10th);
         Congressman c11 = new Congressman("Michael", "McCaul", "Republican", tx, tx10th);
-        Congressman c12 = new Congressman("Randy", "Neugebauer", "Republican", tx, tx19th);
+        Congressman c12 = new Congressman("Randy", "Neugebauer", "Republican", tx, tx19th);        
+        
+/*        Congressman c1 = new Congressman("Frank", "Lucas", "Republican", ok);
+        Congressman c2 = new Congressman("David", "Scott", "Democratic", ga);
+        Congressman c3 = new Congressman("Jim", "Costa", "Democratic", ca);
+        Congressman c4 = new Congressman("Fred", "Upton", "Republican", mi);
+        Congressman c5 = new Congressman("Ralph", "Hall", "Republican", tx);
+        Congressman c6 = new Congressman("Paul", "Tonko", "Democratic", ny);
+        Congressman c7 = new Congressman("Ed", "Markey", "Democratic", ma);
+        Congressman c8 = new Congressman("Andrew", "Harris", "Republican", md);
+        Congressman c9 = new Congressman("Kevin", "Cramer", "Republican", nd);
+        Congressman c10 = new Congressman("Paul", "Broun", "Republican", ga);
+        Congressman c11 = new Congressman("Michael", "McCaul", "Republican", tx);
+        Congressman c12 = new Congressman("Randy", "Neugebauer", "Republican", tx);*/
         
         
         // Load the tables in a transaction
@@ -151,7 +178,7 @@ public class Congressman {
         criteria.addOrder(Order.asc("id"));
         
         List<Congressman> congressmen = criteria.list();
-        System.out.println("All comgressmen: ");
+        System.out.println("\nAll comgressmen: ");
         
         for(Congressman congressman : congressmen) {
             congressman.print();
@@ -204,6 +231,25 @@ public class Congressman {
     public static void congressmanInDistrict(String district) {
         
         // To be fill up
+        Session session = HibernateContext.getSession();
+        Criteria congressmanCriteria = session.createCriteria(Congressman.class).createCriteria("district");
+       // Criteria districtCriteria = congressmanCriteria.createCriteria("district");
+        
+       // districtCriteria.add(Restrictions.eq("name", district));
+        congressmanCriteria.add(Restrictions.eq("name", district));
+        // Distict congressman sorted by id
+        congressmanCriteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+        congressmanCriteria.addOrder(Order.asc("id"));
+        
+        List<Congressman> congressmen = (List<Congressman>)congressmanCriteria.list();
+        System.out.printf("\nCongressmen in district %s:\n", district);
+        
+        for(Congressman congressman : congressmen) {
+            System.out.printf("%d. %s %s\n", congressman.getId(), 
+                    congressman.getFirstName(), congressman.getLastName());
+        }
+        
+        session.close();   
     }
     
     

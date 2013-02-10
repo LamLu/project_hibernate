@@ -17,7 +17,7 @@ public class Driver {
             "* ---------------- Commands ---------------- *\n"
             + "* create, load, find <congressman_id>        *\n"
             + "* congressmen, districts, committees, states *\n"
-            + "* congressmanInDistrict <>                   *\n"
+            + "* congressmanInDistrict <congressman_name>   *\n"
             + "* congressmanInState <state_code>            *\n"
             + "* congressmanInCommittee <committee_name>    *\n"
             + "* quit                                       *\n"
@@ -51,8 +51,8 @@ public class Driver {
             }
             
             else if(command.equalsIgnoreCase("load")) {
-            	District.load();
                 State.load();
+                District.load();
                 Congressman.load();
                 Committee.load();
             }
@@ -62,7 +62,7 @@ public class Driver {
             }
             
             else if(command.equalsIgnoreCase("districts")) {
-                // To be fill up
+                District.list();
             }
             
             else if(command.equalsIgnoreCase("committees")) {
@@ -89,7 +89,14 @@ public class Driver {
             
             else if(parts[0].equalsIgnoreCase("congressmanInDistrict") 
                     && parts.length >= 2) {
-                Congressman.congressmanInDistrict(parts[1]);
+            	String districtName = "";
+            	for (int i = 1; i < parts.length; i++)
+            	{
+            		districtName += parts[i];
+            		if (i != parts.length - 1)
+            			districtName += " ";
+            	}
+                Congressman.congressmanInDistrict(districtName);
             }
             
             else if(parts[0].equalsIgnoreCase("congressmanInState") 

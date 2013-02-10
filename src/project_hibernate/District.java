@@ -19,7 +19,7 @@ public class District
 {
 	private int id;
 	private String name;
-	
+	private Congressman congressman;
 	
 	/**
 	 * default constructor
@@ -44,6 +44,11 @@ public class District
 	@Column(name = "name", unique = true)
 	public String getName(){ return this.name;}
 	public void setName(String aName){ this.name = aName;}
+	
+    @OneToOne(fetch=FetchType.LAZY)
+    @PrimaryKeyJoinColumn
+    public Congressman getCongressman(){return this.congressman;}
+    public void setCongressman(Congressman cg){this.congressman = cg;}
 	
 	/**
 	 * Load the district name into district table
@@ -85,10 +90,10 @@ public class District
 	{
 		Session session = HibernateContext.getSession();
 		Query query = session.createQuery("from District");
-		System.out.println("All District: ");
+		System.out.println("\nAll District: ");
 		for (District district : (List<District>) query.list())
 		{
-			System.out.format("%d: %s", district.getID(), district.getName());
+			System.out.format("%d: %s\n", district.getID(), district.getName());
 		}
 	}
 	

@@ -6,7 +6,14 @@ package project_hibernate;
 
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -118,7 +125,7 @@ public class Committee {
         Session session = HibernateContext.getSession();
         Query query = session.createQuery("from Committee");
         
-        System.out.println("All committees: ");
+        System.out.println("\nAll committees: ");
         
         for(Committee c : (List<Committee>)query.list()) {
             c.print();
