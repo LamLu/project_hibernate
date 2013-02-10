@@ -233,7 +233,6 @@ public class Congressman {
         // To be fill up
         Session session = HibernateContext.getSession();
         Criteria congressmanCriteria = session.createCriteria(Congressman.class).createCriteria("district");
-       // Criteria districtCriteria = congressmanCriteria.createCriteria("district");
         
        // districtCriteria.add(Restrictions.eq("name", district));
         congressmanCriteria.add(Restrictions.eq("name", district));
