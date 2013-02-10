@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.*;
 import org.hibernate.*;
 import org.hibernate.Query;
+import org.hibernate.criterion.Order;
 
 /**
  * this class represents a district table on the database
@@ -89,11 +90,12 @@ public class District
 	public static void list()
 	{
 		Session session = HibernateContext.getSession();
-		Query query = session.createQuery("from District");
-		System.out.println("\nAll District: ");
-		for (District district : (List<District>) query.list())
+		Criteria c = session.createCriteria(District.class);
+		c.addOrder(Order.asc("id"));
+		System.out.println("All District: ");
+		for (District district : (List<District>) c.list())
 		{
-			System.out.format("%d: %s\n", district.getID(), district.getName());
+			System.out.format("%-3d: %20s\n", district.getID(), district.getName());
 		}
 	}
 	

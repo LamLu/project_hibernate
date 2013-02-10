@@ -17,7 +17,7 @@ public class Driver {
             "* ---------------- Commands ---------------- *\n"
             + "* create, load, find <congressman_id>        *\n"
             + "* congressmen, districts, committees, states *\n"
-            + "* congressmanInDistrict <congressman_name>   *\n"
+            + "* congressmanInDistrict <district_name>      *\n"
             + "* congressmanInState <state_code>            *\n"
             + "* congressmanInCommittee <committee_name>    *\n"
             + "* quit                                       *\n"
