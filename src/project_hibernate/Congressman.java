@@ -32,12 +32,13 @@ public class Congressman {
     
     public Congressman() {}
     
-    public Congressman(String firstName, String lastName, String party, State state) {
+    public Congressman(String firstName, String lastName, String party, State state , District district) {
         
         this.firstName = firstName;
         this.lastName = lastName;
         this.party = party;
         this.state = state;
+        this.district = district;
     }
 
     @Id
@@ -92,18 +93,32 @@ public class Congressman {
         State ok = State.find("OK");
         State tx = State.find("TX");
         
-        Congressman c1 = new Congressman("Frank", "Lucas", "Republican", ok);
-        Congressman c2 = new Congressman("David", "Scott", "Democratic", ga);
-        Congressman c3 = new Congressman("Jim", "Costa", "Democratic", ca);
-        Congressman c4 = new Congressman("Fred", "Upton", "Republican", mi);
-        Congressman c5 = new Congressman("Ralph", "Hall", "Republican", tx);
-        Congressman c6 = new Congressman("Paul", "Tonko", "Democratic", ny);
-        Congressman c7 = new Congressman("Ed", "Markey", "Democratic", ma);
-        Congressman c8 = new Congressman("Andrew", "Harris", "Republican", md);
-        Congressman c9 = new Congressman("Kevin", "Cramer", "Republican", nd);
-        Congressman c10 = new Congressman("Paul", "Broun", "Republican", ga);
-        Congressman c11 = new Congressman("Michael", "McCaul", "Republican", tx);
-        Congressman c12 = new Congressman("Randy", "Neugebauer", "Republican", tx);
+        
+        District ok3rd = District.find("Oklahoma's 3rd District");
+        District ga13th = District.find("Georgia's 13th District");
+        District ca16th = District.find("California's 16th District");
+        District mi6th = District.find("Michigan's 6th District");
+        District tx4th = District.find("Texas's 4th District");
+        District ny20th = District.find("New York's 20th District");
+        District ma5th = District.find("Massachusetts's 5th District");
+        District md1st = District.find("Maryland's 1st District");
+        District ndAtLarge = District.find("North Dakota's At-Large District");
+        District ga10th = District.find("Georgia's 10th District");
+        District tx10th = District.find("Texas's 10th District");
+        District tx19th = District.find("Texas's 19th District");
+        
+        Congressman c1 = new Congressman("Frank", "Lucas", "Republican", ok, ok3rd);
+        Congressman c2 = new Congressman("David", "Scott", "Democratic", ga, ga13th);
+        Congressman c3 = new Congressman("Jim", "Costa", "Democratic", ca, ca16th);
+        Congressman c4 = new Congressman("Fred", "Upton", "Republican", mi, mi6th);
+        Congressman c5 = new Congressman("Ralph", "Hall", "Republican", tx, tx4th);
+        Congressman c6 = new Congressman("Paul", "Tonko", "Democratic", ny, ny20th);
+        Congressman c7 = new Congressman("Ed", "Markey", "Democratic", ma, ma5th);
+        Congressman c8 = new Congressman("Andrew", "Harris", "Republican", md, md1st);
+        Congressman c9 = new Congressman("Kevin", "Cramer", "Republican", nd, ndAtLarge);
+        Congressman c10 = new Congressman("Paul", "Broun", "Republican", ga, ga10th);
+        Congressman c11 = new Congressman("Michael", "McCaul", "Republican", tx, tx10th);
+        Congressman c12 = new Congressman("Randy", "Neugebauer", "Republican", tx, tx19th);
         
         
         // Load the tables in a transaction

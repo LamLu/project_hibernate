@@ -28,7 +28,7 @@ public class Driver {
         BufferedReader stdin = new BufferedReader(new InputStreamReader(System.in));
         String command = "";
         
-        Class[] clases = {Congressman.class, Committee.class, State.class};
+        Class[] clases = {Congressman.class, Committee.class, State.class, District.class};
         
         HibernateContext.addClasses(clases);
         
@@ -51,6 +51,7 @@ public class Driver {
             }
             
             else if(command.equalsIgnoreCase("load")) {
+            	District.load();
                 State.load();
                 Congressman.load();
                 Committee.load();
