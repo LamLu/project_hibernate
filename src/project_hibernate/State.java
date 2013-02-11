@@ -116,6 +116,7 @@ public class State {
         tx.commit();
         
         session.close();
+		System.out.println("State is loaded");
     }
     
     /**

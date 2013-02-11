@@ -168,6 +168,7 @@ public class Congressman implements Serializable{
         tran.commit();
         
         session.close();
+		System.out.println("Congressman is loaded");
     }
         
     /**

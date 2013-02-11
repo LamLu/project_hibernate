@@ -115,6 +115,7 @@ public class Committee {
         tx.commit();
         
         session.close();
+		System.out.println("Committee is loaded");
         
     }
     

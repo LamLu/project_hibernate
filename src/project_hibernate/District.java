@@ -81,7 +81,7 @@ public class District implements Serializable
 		}
 		tx.commit();
 		session.close();
-		System.out.print("District is loaded");
+		System.out.println("District is loaded");
 	}
 	
 	/**
