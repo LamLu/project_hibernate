@@ -48,7 +48,6 @@ public class District implements Serializable
 	public void setName(String aName){ this.name = aName;}
 	
     @OneToOne(mappedBy = "district", fetch=FetchType.LAZY)
-  //@PrimaryKeyJoinColumn
     public Congressman getCongressman(){return this.congressman;}
     public void setCongressman(Congressman cg){this.congressman = cg;}
 	
