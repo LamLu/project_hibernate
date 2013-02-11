@@ -4,6 +4,7 @@
  */
 package project_hibernate;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,7 +35,7 @@ import org.hibernate.criterion.Restrictions;
 
 @Entity
 @Table(name="congressman")
-public class Congressman {
+public class Congressman implements Serializable{
     
     private int id;
     private String firstName;
@@ -75,7 +76,7 @@ public class Congressman {
     public void setparty(String party) { this.party = party; }    
     
     @OneToOne(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
-    @JoinColumn(name="district_id")
+    @JoinColumn(name="district_id", unique = true, nullable = false)
     public District getDistrict() { return district; }
     public void setDistrict(District district) { this.district = district; };
     
@@ -312,7 +313,8 @@ public class Congressman {
      * Print congressman attributes
      */
     public void print() {
-        System.out.printf("\n%d, %s %s, %s, %s\n", id, firstName, lastName, party, state.getStateCode());
+        System.out.printf("\n%d, %s %s, %s, %s, District_ID: %s\n", id, firstName, lastName, party, state.getStateCode(),
+        		district.getID());
     }
 
     

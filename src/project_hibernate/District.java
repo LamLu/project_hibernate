@@ -1,5 +1,6 @@
 package project_hibernate;
 
+import java.io.Serializable;
 import java.util.List;
 
 
@@ -16,7 +17,7 @@ import org.hibernate.criterion.Order;
 @Entity
 @Table(name = "district")
 
-public class District 
+public class District implements Serializable
 {
 	private int id;
 	private String name;
@@ -37,7 +38,7 @@ public class District
 	
 	@Id
 	@GeneratedValue
-	@Column(name ="id")
+	@Column(name ="id", unique = true, nullable = false)
 	public int getID (){ return this.id;}
 	
 	public void setID (int anID){ this.id = anID;};
@@ -46,8 +47,8 @@ public class District
 	public String getName(){ return this.name;}
 	public void setName(String aName){ this.name = aName;}
 	
-    @OneToOne(fetch=FetchType.LAZY)
-    @PrimaryKeyJoinColumn
+    @OneToOne(mappedBy = "district", fetch=FetchType.LAZY)
+  //@PrimaryKeyJoinColumn
     public Congressman getCongressman(){return this.congressman;}
     public void setCongressman(Congressman cg){this.congressman = cg;}
 	
